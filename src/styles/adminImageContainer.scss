@@ -1,0 +1,67 @@
+.admin-image-container{
+    width: 100%;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+    @mixin pop-up{
+        position: absolute;
+        top: 120%;
+        transform: translateX(-50%) translateY(-50%);
+        transition: 0.2s;
+        .icon-container{
+            border-radius: 50%;
+            padding: 0.5rem;
+            border: none;
+            background-color: rgb(33, 94, 227);
+        }
+    }
+    .remove-pop-up{                
+        @include pop-up;
+        left: 25%;
+    }
+    .edit-pop-up{                
+        @include pop-up;
+        left: 75%;
+    }
+}
+.admin-image-container:hover{
+    cursor: grab;
+    .edit-pop-up,.remove-pop-up{
+        top: 50%;
+        display: flex;
+        flex-direction: column;
+        
+        .icon-container:hover{
+            cursor: grab;
+        }
+    }
+    @mixin pop-up-before{
+        transition: 0.3s;
+        font-size: 0.6rem;
+        padding: 2px;
+        text-align: center;
+        position: absolute;
+        top: -20%;
+        left: 15%;
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        transform: scale(0) translateX(0%);
+    }
+    .remove-pop-up::before{
+        @include pop-up-before;
+        content: attr(remove-book);
+    }
+    .edit-pop-up::before{
+        @include pop-up-before;
+        content: attr(edit-book);
+    }
+    .edit-pop-up:hover::before,.remove-pop-up:hover::before{
+        transform: scale(1) translateX(0%);
+        top: -50%;
+    }
+}

@@ -1,6 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
+import {BookStoreContext} from "../../BookStoreContextProvider";
 
 const Prices = ({prices})=>{
+    let discount = localStorage.getItem('discount');
+    discount = discount != null ? discount: 0;
+    const discountFraction = (100-discount)/100;
+    const isSignedIn = localStorage.getItem('email') != null;
+
     return <div className="prices">
         <div className="digital-pane">
             <div className="title">{"דיגיטלי"}</div>
@@ -9,8 +15,8 @@ const Prices = ({prices})=>{
         </div>
         <div className="printed-pane">
             <div className="title">{"מודפס"}</div>
-            <div className="prev-price">{prices.prevPrintedPrice}</div>
-            <div className="price">{prices.printedPrice}</div>
+            <div className="prev-price">{(prices.prevPrintedPrice*(isSignedIn?discountFraction:1)).toFixed(2)}</div>
+            <div className="price">{(prices.printedPrice*(isSignedIn?discountFraction:1)).toFixed(2)}</div>
         </div>
     </div>
 }

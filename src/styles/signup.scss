@@ -1,0 +1,83 @@
+.sign-up{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem;
+
+    .sign-up__title{
+        font-size: 2rem;
+    }
+
+    .sign-up__form{
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        width: 80%;
+        @mixin input-field{
+            width: 100%;
+            height: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.303);
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        .sign-up__email-valid{
+            @include input-field;
+        }
+        .sign-up__email-valid:focus{
+            border: 1px solid rgba(0, 0, 0, 0.663);
+            outline: none;
+        }
+        .sign-up__email-invalid{
+            @include input-field;
+            border: 1px solid red;
+        }
+        .sign-up__email-invalid:focus{
+            @include input-field;
+            border: 1px solid black;
+        }
+        .sign-up__error-message{
+            color: red;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        .sign-up__password-valid{
+            @include input-field;
+        }
+        .sign-up__password-valid:focus{
+            border: 1px solid rgba(0, 0, 0, 0.663);
+            outline: none;
+        }
+        .sign-up__password-invalid{
+            @include input-field;
+            border: 1px solid red;
+        }
+        .sign-up__password-invalid:focus{
+            @include input-field;
+            border: 1px solid black;
+        }
+        @mixin sign-up__button{
+            font-weight: 700;
+            padding: 1rem;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+        .sign-up__button-enabled{   
+            @include sign-up__button;
+            background-color: rgb(41, 41, 227);
+        }
+        .sign-up__button-enabled:hover{
+            background-color: rgb(50, 50, 146);
+            cursor: grab;
+        }
+        .sign-up__button-disabled{   
+            @include sign-up__button;
+            background-color: rgb(207, 207, 207);
+        }
+    }
+    .sign-up__sign-in{
+        margin-top: 2rem;
+    }
+}

@@ -1,0 +1,87 @@
+.account-page{
+    padding: 2rem;
+    position: relative;
+    .nav-container{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .sign-out-button{
+            width: 100px;
+            height: 40px;
+            background-color: rgb(244, 154, 154);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 700;
+            cursor: grab;
+        }
+    }
+    .account-page__header{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        .account-page__title{
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .account-page__dates{
+            color: grey;
+            font-style: italic;
+            >div{
+                font-size: 0.8rem;
+            }
+        }
+    }
+    .account-page__info{
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+        gap: 0.6rem;
+        .account-page__data-container{
+            display: flex;
+            background-color: rgb(220, 219, 219);
+            border-radius: 20px;
+            padding: 0.5rem;
+            .account-page__label{
+                width: 200px;
+            }
+        }
+    }
+
+    .buttons-container{
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 1rem;
+        &>div{
+            background-color: black;
+            color:white;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 0.6rem;
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: grab;
+        }
+    }
+}
+
+@media (min-width: 600px){
+    .account-page{
+        
+        .account-page__header{
+            flex-direction: row;
+        }
+        .buttons-container{
+            display: flex;
+            justify-content: end;
+            gap: 1rem;
+        }
+    }
+}

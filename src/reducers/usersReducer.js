@@ -3,6 +3,10 @@ export const usersInitialState = {
     firstName: "Israel",
     lastName: "Kariti",
     dob: new Date(1,2,2003),
+    email: '',
+    phone: '',
+    signUpDate: '',
+    lastSignIn: '',
 }
 
 export const usersReducer = (state, action)=>{

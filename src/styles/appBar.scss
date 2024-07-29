@@ -1,0 +1,28 @@
+.app-bar__header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: blanchedalmond;
+    margin-bottom: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0px 5px 5px grey;
+    .app-bar__home{
+        font-size: 3rem;
+        cursor: grab;
+    }
+    .app-bar__home:hover{
+        color: rgb(178, 178, 178);
+    }
+    .app-bar__title{
+        width: 100%;
+        font-size: 2rem;
+        direction: rtl;
+        display: flex;
+        justify-content: start;
+        padding: 0.5rem;
+    }
+}

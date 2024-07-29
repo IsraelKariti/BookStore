@@ -1,0 +1,38 @@
+.thank-you{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(97, 97, 97, 0.893);
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    .thank-you__modal{
+        width: 60%;
+        margin: auto;
+        background-color: pink;
+        border-radius: 20px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        gap: 1rem;
+        margin-top: 2rem;
+        .thank-you__title{
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .thank-you__info{
+            font-size: 1.2rem;
+        }
+        .thank-you__button{
+            border: 2px solid black;
+            border-radius: 20px;
+            padding: 10px;
+            cursor: grab;
+        }
+        .thank-you__button:hover{
+            background-color: rgb(245, 125, 249);
+        }
+    }
+}

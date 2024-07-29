@@ -1,0 +1,85 @@
+.sign-in{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem;
+    // gap: 2rem;
+
+    .sign-in__title{
+        font-size: 2rem;
+    }
+
+    .sign-in__form{
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        width: 80%;
+        gap: 1rem;
+        @mixin input-field{
+            width: 100%;
+            height: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.303);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .sign-in__email-valid{
+            @include input-field;
+        }
+        .sign-in__email-valid:focus{
+            border: 1px solid rgba(0, 0, 0, 0.663);
+            outline: none;
+        }
+        .sign-in__email-invalid{
+            @include input-field;
+            border: 1px solid red;
+        }
+        .sign-in__email-invalid:focus{
+            @include input-field;
+            border: 1px solid black;
+        }
+
+        .sign-in__password-valid{
+            @include input-field;
+        }
+        .sign-in__password-valid:focus{
+            border: 1px solid rgba(0, 0, 0, 0.663);
+            outline: none;
+        }
+        .sign-in__password-invalid{
+            @include input-field;
+            border: 1px solid red;
+        }
+        .sign-in__password-invalid:focus{
+            @include input-field;
+            border: 1px solid black;
+        }
+        @mixin sign-in__button{
+            font-weight: 700;
+            padding: 1rem;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+        .sign-in__button-enabled{   
+            @include sign-in__button;
+            background-color: rgb(41, 41, 227);
+        }
+        .sign-in__button-enabled:hover{
+            background-color: rgb(50, 50, 146);
+            cursor: grab;
+        }
+        .sign-in__button-disabled{   
+            @include sign-in__button;
+            background-color: rgb(207, 207, 207);
+        }
+        .sign-in__error{
+            color: red;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+    }
+    .sign-in__sign-up{
+        margin-top: 1rem;
+    }
+}

@@ -2,53 +2,42 @@ import React, {useState, useEffect, useContext } from "react";
 import { BookStoreContext } from "../../BookStoreContextProvider";
 import BookCard from "../BookCard/BookCard";
 import ReactSimplyCarousel from 'react-simply-carousel';
+import '../../styles/carousel-wrapper.scss';
+import Review from "./Review";
 
 const CarouselWrapper = ()=>{
     const {booksState} = useContext(BookStoreContext);
     const [numFav, setNumFav] = useState(1);
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
-    const bookCardWrapperStyle = { 
-        width: 150, 
-        height: 300, 
-        background: 'white',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+    const updateNumFavs = ()=>{
+        const width = window.innerWidth;
+        if(width < 350){
+            setNumFav(1);
+        }
+        else if(width < 400){
+            setNumFav(2);
+        }
+        else if(width < 690){
+            setNumFav(3);
+        }
+        else if(width < 820){
+            setNumFav(4);
+        }
+        else if(width < 1000){
+            setNumFav(5);
+        }
+        else{
+            setNumFav(6);
+        }
     }
-
     useEffect(()=>{
-        window.addEventListener("resize", ()=>{
-            const width = window.innerWidth;
-            if(width < 350){
-                console.log(":::1");
-                setNumFav(1);
-            }
-            else if(width < 400){
-                console.log(":::2");
-                setNumFav(2);
-            }
-            else if(width < 690){
-                console.log(":::3");
-                setNumFav(3);
-            }
-            else if(width < 820){
-                console.log(":::4");
-                setNumFav(4);
-            }
-            else if(width < 1000){
-                console.log(":::5");
-                setNumFav(5);
-            }
-            else{
-                console.log(":::6");
-                setNumFav(6);
-            }
-        })
+        window.addEventListener("resize", updateNumFavs);
+        updateNumFavs();
     },[]);
     
     return (
-        <div>
+        <div className="carousel-wrapper">
           <ReactSimplyCarousel
             activeSlideIndex={activeSlideIndex}
             onRequestChange={setActiveSlideIndex}
@@ -90,7 +79,7 @@ const CarouselWrapper = ()=>{
             }}
             responsiveProps={[
               {
-                itemsToShow: 6,
+                itemsToShow: numFav,
                 itemsToScroll: 1,
                 minWidth: 768,
               },
@@ -98,31 +87,15 @@ const CarouselWrapper = ()=>{
             speed={400}
             easing="ease-out"
           >
-            {/* here you can also pass any other element attributes. Also, you can use your custom components as slides */}
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[0]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[1]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[2]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[3]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[4]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[5]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[6]}/>
-            </div>
-            <div style={bookCardWrapperStyle}>
-                <BookCard book={booksState[7]}/>
-            </div>
+            {
+              booksState.filter((book)=>book.rating>=4).map((book, index)=>(
+              <div key={index} className="carousel-item" >
+                  <BookCard book={book}/>
+                  <Review book={book} />
+              </div>
+
+              ))
+            }
           </ReactSimplyCarousel>
         </div>
       );

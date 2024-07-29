@@ -1,0 +1,85 @@
+.book-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10%;
+    img{
+        width: 30%;
+    }
+    .book-page__textual{    
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        .title{
+            direction: rtl;
+            width: 100%;
+            height: fit-content;
+            // margin-top: 1rem;
+            font-size: 2rem;
+    
+            font-weight: 700;
+        }
+        .author{
+            direction: rtl;
+            width: 100%;
+            height: fit-content;
+            margin-top: 0.6rem;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        .summary{
+            width: 100%;
+            display: flex;
+            align-items: end;
+            flex-direction: column;
+            @mixin summary__text{
+                direction: rtl;
+                width: 100%;
+                font-size: 0.7rem;
+                white-space:pre-wrap;
+                transition: 1s;
+                overflow: hidden;
+            }
+            .summary__text-expanded{
+                @include summary__text;
+                max-height: 500px;
+            }
+            .summary__text-contracted{
+                @include summary__text;
+                max-height: 100px;
+                box-shadow: inset 0 -10px 10px rgb(198, 198, 198)
+            }
+            .summary__expand-button{
+                direction: rtl;
+                width: 100%;
+                font-size: 0.7rem;
+                text-decoration: underline;
+                margin-top: 1rem;
+            }
+            .summary__contract-button{
+                direction: rtl;
+                width: 100%;
+                font-size: 0.7rem;
+                text-decoration: underline;
+                margin-top: 1rem;
+            }
+            .summary__expand-button:hover{
+                cursor: grab;
+            }
+        }
+    }
+}
+
+@media (min-width: 670px){
+    .book-page{
+        flex-direction: row-reverse;
+        align-items:start;
+        img{
+            width: 40%;
+        }
+        // .book-page__textual{
+        //     width: auto;
+        // }
+    }
+}
