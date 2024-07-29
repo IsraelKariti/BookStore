@@ -19,6 +19,7 @@
 .env.test.local
 .env.production.local
 zzz.zzz
+yyy.yyy
 
 npm-debug.log*
 yarn-debug.log*
