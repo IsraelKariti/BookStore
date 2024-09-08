@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { BookStoreContext } from '../BookStoreContextProvider';
 import {addAccount} from '../db/db';
+import validator from 'validator';
 
 export default function SignUp() {
     const [email, setEmail] = useState('');
@@ -45,7 +46,7 @@ export default function SignUp() {
         const passwordValue = e.target.value;
         setPassword(passwordValue);
 
-        if(passwordValue.length >= 6){
+        if(validator.isStrongPassword(passwordValue)){
             setPasswordClass('sign-up__password-valid')
             setIsPasswordValid(true);
             setPasswordErrorMessage('');
@@ -53,7 +54,7 @@ export default function SignUp() {
         else{
             setPasswordClass('sign-up__password-invalid')
             setIsPasswordValid(false);
-            setPasswordErrorMessage('email must be at least 6 characters');
+            setPasswordErrorMessage('password is weak');
         }
     }
 
@@ -90,11 +91,10 @@ export default function SignUp() {
         setButtonDisabled(true);
         try{
             const res = await signup(email, password);
-            const idToken = res.data.idToken;
-            localStorage.setItem('idToken', idToken);
-            localStorage.setItem('email', email);
+            const token = res.data.token;
+            localStorage.setItem('token', token);
             setLoggedInEmail(email);
-            storeUserDetailsInDB();
+            //storeUserDetailsInDB();
             navigate('/home');
         }
         catch(e){

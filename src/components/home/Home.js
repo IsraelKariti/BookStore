@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import HomeTopBar from "./HomeTopBar";
 import CarouselWrapper from "../Carousel/CarouselWrapper";
 import HomeBooksPanel from '../home/HomeBooksPanel';

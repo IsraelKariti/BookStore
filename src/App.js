@@ -11,10 +11,6 @@ import AccountRouteWraper from './components/Account/AccountRouteWrapper';
 import CartPage from './components/Cart/CartPage';
 import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
 
-import { signup } from './auth/auth';
-import { nanoid } from 'nanoid';
-import {addAccount} from './db/db';
-
 function App() {
   // signup('admin@bookstore.com', '123456');
   // const storeUserDetailsInDB = ()=>{
@@ -36,6 +32,7 @@ function App() {
   //   addAccount(data);
   // }
   // storeUserDetailsInDB();
+  
   return (
     <div className="app">
       <BookStoreContextProvider>

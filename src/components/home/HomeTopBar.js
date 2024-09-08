@@ -6,13 +6,13 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { BookStoreContext } from '../../BookStoreContextProvider';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { jwtDecode } from "jwt-decode";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -83,8 +83,13 @@ export default function HomeTopBar() {
     navigate('/cart');
   }
   useEffect(()=>{
-    const userEmail = localStorage.getItem('email');
-    setActiveUserEmail(userEmail);
+    // TODO: 1. Change to get the email from a token
+    const token = localStorage.getItem('token');
+    // 2. extract the email from the token 
+    if(token != null){
+      const payload = jwtDecode(token);
+      setActiveUserEmail(payload.email);
+    }
   },[]);
   return (
     <Box sx={{ flexGrow: 1, position: "fixed", top: 0, width: "100%", zIndex:"1" }}>

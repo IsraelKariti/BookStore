@@ -4,7 +4,7 @@ export const BooksPanelContext = createContext();
 
 const BooksPanelContextProvider = ({children})=>{
 
-    return <BooksPanelContext.Provider >
+    return <BooksPanelContext.Provider value={null}>
         {children}
     </BooksPanelContext.Provider>
 }

@@ -1,29 +1,36 @@
 import Axios from 'axios';
-const signupAddress="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
+
 const signinAddress="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
 const deleteSignedInAccountAddress="https://identitytoolkit.googleapis.com/v1/accounts:delete?key=";
 const updateEmailAddress="https://identitytoolkit.googleapis.com/v1/accounts:update?key=";
 
 export const signup = async (email, password)=>{
-    const endpoint = signupAddress+process.env.REACT_APP_AUTH_API_KEY;
+    const endpoint = process.env.REACT_APP_BACKEND_SERVER + '/signup';
     const body = {
-        email,
-        password,
-        returnSecureToken: true,
-    }
+        user:{
+            email,
+            password
+        }
+    };
     const response = await Axios.post(endpoint, body);
     return response;
 }
 
 export const signin = async (email, password)=>{
     const endpoint = signinAddress+process.env.REACT_APP_AUTH_API_KEY;
+    console.log('goodbyw');
+    
     const body = {
         email,
         password,
         returnSecureToken: true,
     }
-    const response = await Axios.post(endpoint, body);//18
+    const response = await Axios.post(endpoint, body);//
     return response;
+    // await Axios.post('https://localhost:4000', {
+    //     email,
+    //     password
+    // });
 }
 
 export const deleteSignedInAccount = async ()=>{
