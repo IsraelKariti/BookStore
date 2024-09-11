@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import '../../styles/signin.scss';
 import LockIcon from '@mui/icons-material/Lock';
 import { signin } from '../../auth/auth';
 import { useNavigate } from 'react-router-dom';
+import { BookStoreContext } from '../../BookStoreContextProvider';
 
 export default function AdminSignIn() {
-
+    const {setAdminLoggedIn} = useContext(BookStoreContext);
     const [email, setEmail] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [emailClass, setEmailClass] = useState('sign-in__email-valid');
@@ -53,17 +54,13 @@ export default function AdminSignIn() {
 
     const onFormSubmitted = async (e)=>{
         e.preventDefault();
-        if(email !== 'admin@bookstore.com'){
-            setShowError(true);
-            return;
-        }
         try{
             const response = await signin(email, password);
             const data = response.data;
-            const idToken = data.idToken;
-            localStorage.setItem('idToken', idToken);
-            localStorage.setItem('email',email);
-            window.location.reload();
+            const token = data.token;
+            localStorage.setItem('token', token);
+            setAdminLoggedIn(true);
+            navigate('/admin');
         }
         catch(e){
             setShowError(true);

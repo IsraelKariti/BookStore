@@ -10,6 +10,8 @@ import EditBookDetails from "./EditBookDetails";
 import { AdminContext } from "./AdminContext";
 import { BookStoreContext } from "../../BookStoreContextProvider";
 import BooksPanelContextProvider from "../BooksPanelContextProvider";
+import { getDiscountFromDB } from "../../db/db";
+
 const AdminPage = ()=>{
     const {isEditBook,setEditBook,book, isAddBook, setAddBook, } = useContext(AdminContext);
     const {discount, setDiscount} = useContext(BookStoreContext); 
@@ -66,9 +68,11 @@ const AdminPage = ()=>{
         localStorage.setItem('discount', e.target.value);
     }
     useEffect(()=>{
-        setPageData();
-        const discountValue = localStorage.getItem('discount');
-        setDiscount(discountValue);
+        (async ()=>{
+            await setPageData();
+            const discount = await getDiscountFromDB();
+            setDiscount(discount);
+        })();
     },[]);
     return  <div className="account-page">
                     <div className="nav-container">

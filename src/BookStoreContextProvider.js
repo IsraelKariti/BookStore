@@ -13,6 +13,7 @@ const BookStoreContextProvider = ({children})=>{
     const [loggedInEmail, setLoggedInEmail] = useState(null);
     const [discount, setDiscount] = useState(0);    
     const [isThankyouModal, setThankyouModal] = useState(false);
+    const [isAdminLoggedIn, setAdminLoggedIn] = useState(false);
  
     const values = {
         booksState,
@@ -29,6 +30,8 @@ const BookStoreContextProvider = ({children})=>{
         setDiscount,
         isThankyouModal, 
         setThankyouModal,
+        isAdminLoggedIn, 
+        setAdminLoggedIn
     }
 
     return <BookStoreContext.Provider value={values}>

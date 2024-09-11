@@ -59,12 +59,8 @@ export default function SignIn() {
         try{
             const response = await signin(email, password);
             const data = response.data;
-            const idToken = data.idToken;
-            const account = await getAccount(email);
-            const cartItems = account.cartItems;
-            localStorage.setItem('idToken', idToken);
-            localStorage.setItem('email',email);
-            localStorage.setItem('cartItems', cartItems ? JSON.stringify(cartItems) : '');
+            const token = data.token;
+            localStorage.setItem('token', token);
             navigate('/home');
         }
         catch(e){

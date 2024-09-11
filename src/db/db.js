@@ -7,16 +7,14 @@ export const addAccount = async (account)=>{
 }
 
 export const getAccount = async (email)=>{
-    const response = await Axios.get(process.env.REACT_APP_DB+'accounts.json/');
-    const elements = Object.values(response.data);
-    for(let i = 0; i < elements.length; i++){
-        const account = Object.values(elements[i])[0];
-        
-        if(account.email === email){
-            return account
+    const url = process.env.REACT_APP_BACKEND_SERVER+'/users';
+    const token = localStorage.getItem('token');
+    const response = await Axios.get(url, {
+        headers: {
+            auth: `Bearer ${token}`
         }
-    }
-    return null;
+    });
+    return response.data;
 }
 
 export const deleteAccount = async (id)=>{
@@ -110,4 +108,30 @@ export const removeBookFromActiveUserInDB = async (book)=>{
             editAccount(account);
         }
     }
+}
+
+export const setDiscountInDB = async (discount)=>{
+    const token = localStorage.getItem('token');
+    const response = await Axios.post(process.env.REACT_APP_BACKEND_SERVER+'/settings', {
+        key: 'discount',
+        value: discount
+    }, {
+        headers:{
+            auth: `Bearer ${token}`
+        }
+    });
+}
+
+export const getDiscountFromDB = async ()=>{
+    const token = localStorage.getItem('token');
+    const response = await Axios.post(process.env.REACT_APP_BACKEND_SERVER+'/settings/get', {
+        setting:{
+            key: 'discount',
+        }
+    }, {
+        headers:{
+            auth: `Bearer ${token}`
+        }
+    });
+    return response.data.value;
 }

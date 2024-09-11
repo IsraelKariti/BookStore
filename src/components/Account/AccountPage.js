@@ -5,6 +5,7 @@ import '../../styles/accountPage.scss';
 import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import EditAccountModal from "./EditAccountModal";
+import { jwtDecode } from "jwt-decode";
 
 const AccountPage = ()=>{
     const [id, setId] = useState('');
@@ -27,17 +28,12 @@ const AccountPage = ()=>{
         navigate("/home");
     }
     const onSignOutClicked = (e)=>{
-        localStorage.removeItem('email');
-        localStorage.removeItem('idToken');
-        localStorage.removeItem('cartItems');
+        localStorage.removeItem('token');
         navigate("/home");
     }
     const onDeleteClicked = async (e)=>{
         await deleteSignedInAccount();
-        await deleteAccount(id);
-        localStorage.removeItem('email');
-        localStorage.removeItem('idToken');
-        localStorage.removeItem('cartItems');
+        localStorage.removeItem('token');
         navigate("/home");
     }
     const onEditClicked = async (e)=>{
@@ -48,8 +44,11 @@ const AccountPage = ()=>{
         setPageData();
     }
     const setPageData = async ()=>{
-        const sessionEmail = localStorage.getItem('email');
-        const account = await getAccount(sessionEmail);
+        const token = localStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        const email = decoded.email;
+        const account = await getAccount(email);
+        //TODO: Check if the data can just go inside the STATE
         setId(account.id);
         setSignUpDate(account.signUpDate);
         setLastSignIn(account.lastSignIn);

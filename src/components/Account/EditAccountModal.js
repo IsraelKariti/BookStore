@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { getAccount, editAccount } from "../../db/db";
 import '../../styles/editAccountModal.scss';
-import {changeEmail} from '../../auth/auth';
+import {editSignedInAccount} from '../../auth/auth';
+import { jwtDecode } from "jwt-decode";
 
 const EditAccountModal = ({closeEditModal, isAdmin = false})=>{
     const [id, setId] = useState('');
@@ -35,11 +36,8 @@ const EditAccountModal = ({closeEditModal, isAdmin = false})=>{
             signUpDate,
             lastSignIn,
         }
-        if(localStorage.getItem('email') !== email)
-            await changeEmail(email, isAdmin);
-    
-        await editAccount(account);
-        localStorage.setItem('email', email);
+        
+        await editSignedInAccount(account);
         closeEditModal();
     }
     const onCancelClicked = (e)=>{
@@ -48,16 +46,17 @@ const EditAccountModal = ({closeEditModal, isAdmin = false})=>{
 
     useEffect(()=>{
         (async ()=>{
-            const sessionEmail = localStorage.getItem('email');
-            const account = await getAccount(sessionEmail);
+            const token = localStorage.getItem('token');
+            const decoded = jwtDecode(token);
+            const account = await getAccount(decoded.email);
             setId(account.id);
-            setFirstName(account.firstName);
-            setLastName(account.lastName);
-            setEmail(account.email);
-            setPhone(account.phone);
-            setDOB(account.dob);
-            setSignUpDate(account.signUpDate);
-            setLastSignIn(account.lastSignIn);
+            setFirstName(account.firstName || '');
+            setLastName(account.lastName || '');
+            setEmail(account.email || '');
+            setPhone(account.phone || '');
+            setDOB(account.dob || '');
+            setSignUpDate(account.signUpDate || '');
+            setLastSignIn(account.lastSignIn || '');
         })();
     },[]);
     return <div className="modal-background">

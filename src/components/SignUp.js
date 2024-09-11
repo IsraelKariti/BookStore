@@ -98,7 +98,11 @@ export default function SignUp() {
             navigate('/home');
         }
         catch(e){
-            const msg = e.response.data.error.message;
+            const msg = e.response.data.message;
+            if(msg.includes('email illegal')){
+                setEmailErrorMessage('email illegal');
+                setIsEmailValid(false);
+            }
             if(msg === 'EMAIL_EXISTS'){
                 setEmailErrorMessage('email already exists');
                 setIsEmailValid(false);
