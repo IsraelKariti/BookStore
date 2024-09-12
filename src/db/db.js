@@ -135,3 +135,19 @@ export const getDiscountFromDB = async ()=>{
     });
     return response.data.value;
 }
+
+export const addBookToDB = async (book)=>{
+    const url = process.env.REACT_APP_BACKEND_SERVER+'/books/create';
+    const token = localStorage.getItem('token');
+    const headers = {
+        auth: `Bearer ${token}`
+    }
+    
+    try{
+        const response = await Axios.post(url, book, {headers});
+        return response;
+    }
+    catch(e){
+        console.log(e);
+    }
+}

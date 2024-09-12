@@ -11,6 +11,7 @@ import { AdminContext } from "./AdminContext";
 import { BookStoreContext } from "../../BookStoreContextProvider";
 import BooksPanelContextProvider from "../BooksPanelContextProvider";
 import { getDiscountFromDB } from "../../db/db";
+import PositionedSnackbar from "./SnackBar";
 
 const AdminPage = ()=>{
     const {isEditBook,setEditBook,book, isAddBook, setAddBook, } = useContext(AdminContext);
@@ -21,6 +22,8 @@ const AdminPage = ()=>{
     const [datum, setDatum] = useState([]);
     const [isEditing, setEditing] = useState(false);
     const navigate = useNavigate();
+    const [snackBarMessage, setSnackBarMessage] = useState('');
+    const [isSnackBarVisible, setSnackBarVisible] = useState(false);
 
     const homeStyle = {
         cursor: "grab",
@@ -63,10 +66,18 @@ const AdminPage = ()=>{
     const addBook = (e)=>{
         setAddBook(true);
     }
+    const showSnackBar = (message)=>{
+        setSnackBarMessage(message);
+        setSnackBarVisible(true);
+        setTimeout(()=>{
+            setSnackBarVisible(false);
+        },3000);
+    }
     const onDiscountChanged = (e)=>{
         setDiscount(e.target.value);
         localStorage.setItem('discount', e.target.value);
     }
+
     useEffect(()=>{
         (async ()=>{
             await setPageData();
@@ -74,6 +85,7 @@ const AdminPage = ()=>{
             setDiscount(discount);
         })();
     },[]);
+
     return  <div className="account-page">
                     <div className="nav-container">
                         <HomeIcon sx={homeStyle} onClick={onHomeClicked}/>
@@ -110,7 +122,8 @@ const AdminPage = ()=>{
                         <input type="number" min="0" max="100" className="discount" value={discount} onChange={onDiscountChanged} />
                     </div>
                     {isEditing && <EditAccountModal closeEditModal={closeEditModal} isAdmin={true}/>}
-                    {(isEditBook || isAddBook) && <EditBookDetails/>}
+                    {(isEditBook || isAddBook) && <EditBookDetails showSnackBar={showSnackBar}/>}
+                    {isSnackBarVisible && <PositionedSnackbar message={snackBarMessage}/>}
                 </div>
 }      
 export default AdminPage;

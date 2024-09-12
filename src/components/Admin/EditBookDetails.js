@@ -3,8 +3,9 @@ import '../../styles/editBookDetails.scss';
 import {BookStoreContext} from '../../BookStoreContextProvider';
 import { AdminContext } from "./AdminContext";
 import { nanoid } from 'nanoid';
+import { addBookToDB } from '../../db/db';
 
-const EditBookDetails = ()=>{
+const EditBookDetails = ({showSnackBar})=>{
     const {booksDispatch} = useContext(BookStoreContext);
     const {setEditBook,book,setBook, isAddBook, setAddBook} = useContext(AdminContext);
 
@@ -14,6 +15,7 @@ const EditBookDetails = ()=>{
     const [review, setReview] = useState('');
     const [imgPath, setImgPath] = useState('');
     const [summary, setSummary] = useState('');
+    const [price, setPrice] = useState(79.9);
 
     const onTitleChanged = (e)=>{
         setTitle(e.target.value);
@@ -48,30 +50,27 @@ const EditBookDetails = ()=>{
         });
     }
 
-    const submitNewBook = ()=>{
-        booksDispatch({
-            type: 'ADD',
-            book: {
-                id: nanoid,
-                title,
-                author, 
-                rating, 
-                review, 
-                imgPath, 
-                summary,
-                prevPrintedPrice: 98.00,
-                printedPrice: 78.40,
-                prevDigitalPrice: 59.00,
-                digitalPrice: 42.00,
-            }
-        })
+    const submitNewBook = async ()=>{
+        const response = await addBookToDB({
+            title,
+            author, 
+            price,
+            imgPath, 
+            summary,
+            review, 
+            rating, 
+        });
+        if(response.status === 201)
+            showSnackBar('Book was successfully added');
+        else
+            showSnackBar('Error: Could not add book');
     }
 
-    const onFormSubmit = (e)=>{
+    const onFormSubmit = async (e)=>{
         console.log("sumbissoin");
         e.preventDefault();
         isAddBook ?
-        submitNewBook() :
+        await submitNewBook() :
         submitEditedBook();
 
         setEditBook(false);
