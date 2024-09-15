@@ -4,16 +4,17 @@ import Pagination from "./Pagination";
 import { BookStoreContext } from "../BookStoreContextProvider";
 import ThankyouModal from './ThankyouModal';
 
-const BookPanel = ({children})=>{
+const BooksPanel = ({children})=>{
     const {isThankyouModal} = useContext(BookStoreContext);
     const numBooks = children.length;
     const [numColumns, setNumColumns] = useState(1);
     const [startIndex, setStartIndex] = useState(0);
     const {searchTerm} = useContext(BookStoreContext);
+    const NUM_BOOKS_PER_PAGE = 12;
 
-    let isColumnWise = false;
+    // let isColumnWise = false;
     const changePage = (pageIndex)=>{
-        setStartIndex(pageIndex*numColumns*2);
+        setStartIndex(pageIndex*NUM_BOOKS_PER_PAGE);
     }
 
     const updateNumOfColumns = ()=>{
@@ -24,19 +25,14 @@ const BookPanel = ({children})=>{
         else if(innerWidth < 650){
             setNumColumns(3);
         }
-        else if(innerWidth < 800){
+        else if(innerWidth < 900){
             setNumColumns(4);
         }
         else{
-            setNumColumns(5);
+            setNumColumns(6);
         }
     }
-
-    if(numBooks > numColumns*2)
-        isColumnWise = true;
-    else
-        isColumnWise = false;
-    
+     
     useEffect(()=>{
         setStartIndex(0);
     },[searchTerm, numColumns]);
@@ -47,12 +43,12 @@ const BookPanel = ({children})=>{
     },[])
 
     return <div className="books-panel">
-            <div className={isColumnWise ? "books-panel__grid-column-wise" : "books-panel__grid-row-wise"}>
-                {children.slice(startIndex,startIndex+numColumns*2)}
+            <div className="books-panel__grid-column-wise">
+                {children}
             </div>
-            {isColumnWise && <Pagination numBooks={numBooks} numColumns={numColumns} changePage={changePage} />}
+            <Pagination numBooks={numBooks} numColumns={numColumns} changePage={changePage} />
             {isThankyouModal && <ThankyouModal/>}
     </div>
 }
 
-export default BookPanel;
+export default BooksPanel;

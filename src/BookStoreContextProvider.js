@@ -1,12 +1,12 @@
-import React, {createContext, useReducer, useState} from "react";
-import { booksInitialState, booksReducer } from "./reducers/booksReducer";
+import React, {createContext, useEffect, useReducer, useState} from "react";
+import { pagesInitialState, pagesReducer } from "./reducers/booksReducer";
 import { usersInitialState, usersReducer } from "./reducers/usersReducer";
-
+import { getBookPagesByRange } from "./services/books.service";
 
 export const BookStoreContext = createContext();
 
 const BookStoreContextProvider = ({children})=>{
-    const [booksState, booksDispatch] = useReducer(booksReducer, booksInitialState);
+    const [pagesState, pagesDispatch] = useReducer(pagesReducer, pagesInitialState);
     const [usersState, usersDispatch] = useReducer(usersReducer, usersInitialState);
     const [searchTerm, setSearchTerm] = useState('');
     const [loggedInIdToken, setLoggedInIdToken] = useState(null);
@@ -16,8 +16,8 @@ const BookStoreContextProvider = ({children})=>{
     const [isAdminLoggedIn, setAdminLoggedIn] = useState(false);
  
     const values = {
-        booksState,
-        booksDispatch,
+        pagesState,
+        pagesDispatch,
         usersState,
         usersDispatch,
         searchTerm,
@@ -33,6 +33,14 @@ const BookStoreContextProvider = ({children})=>{
         isAdminLoggedIn, 
         setAdminLoggedIn
     }
+
+    useEffect(()=>{
+        (async ()=>{
+            // load all books from database to the reducer
+            const pages = await getBookPagesByRange(1,3,12);
+            pagesDispatch({type: 'ADD_PAGES', pages: pages});
+        })();
+    },[]);
 
     return <BookStoreContext.Provider value={values}>
         {children}

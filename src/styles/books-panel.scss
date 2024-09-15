@@ -16,21 +16,14 @@
             background-color: red;
         }
     }
-    .books-panel__grid-row-wise{
-        @include books-panel__grid;
-        grid-auto-flow: row;
-    }
     .books-panel__grid-column-wise{
         @include books-panel__grid;
-        grid-auto-flow: column;
+        grid-auto-flow: row;
     }
 }
 
 @media (min-width: 500px){
-    .books-panel{
-        .books-panel__grid-row-wise{
-            grid-template-columns: repeat(3, 140px);
-        }
+    .books-panel{ 
         .books-panel__grid-column-wise{
             grid-template-columns: repeat(3, 140px);
         }
@@ -39,21 +32,15 @@
 
 @media (min-width: 650px){
     .books-panel{
-        .books-panel__grid-row-wise{
-            grid-template-columns: repeat(4, 140px);
-        }
         .books-panel__grid-column-wise{
             grid-template-columns: repeat(4, 140px);
         }
     }
 }
-@media (min-width: 800px){
+@media (min-width: 960px){
     .books-panel{
-        .books-panel__grid-row-wise{
-            grid-template-columns: repeat(5, 140px);
-        }
         .books-panel__grid-column-wise{
-            grid-template-columns: repeat(5, 140px);
+            grid-template-columns: repeat(6, 140px);
         }
     }
 }

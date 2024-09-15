@@ -31,11 +31,11 @@ const CarouselWrapper = ()=>{
             setNumFav(6);
         }
     }
-    useEffect(()=>{
-        window.addEventListener("resize", updateNumFavs);
-        updateNumFavs();
-    },[]);
-    
+    // useEffect(()=>{
+    //     window.addEventListener("resize", updateNumFavs);
+    //     updateNumFavs();
+    // },[]);
+    return <div>carousel</div>
     return (
         <div className="carousel-wrapper">
           <ReactSimplyCarousel
