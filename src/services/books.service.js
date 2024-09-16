@@ -17,3 +17,22 @@ export const getBookPagesByRange = async (start, end, size)=>{
         return null;
     }
 }
+
+export const getBooksCount = async ()=>{
+    const url = process.env.REACT_APP_BACKEND_SERVER + `/books/count`;
+
+    try{
+        const response = await Axios.get(url);
+        if(response.status === 200){
+            const count = response.data.count;
+            return count;
+        }
+        else{
+            return null;
+        }
+    }
+    catch(e){
+        console.log(e);
+        return null;
+    }
+}

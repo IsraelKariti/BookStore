@@ -1,10 +1,15 @@
 export const pagesReducer = (state, action)=>{
     switch(action.type){
+        case "GET_PAGE":
+            return state[action.pageIndex];
         case "ADD_PAGE":
             return [...state, action.page];
         case "ADD_PAGES":
-            return [...state, ...action.pages];
-        case "REMOVE_FIRST_PAGES":
+            if(action.position === 'FIRST')
+                return [...action.pages, ...state];
+            else
+                return [...state, ...action.pages];
+        case "REMOVE_PAGES":
             const removeAmount = action.numberOfPagesToRemove;
             const removeFromStart = action.removeFromStart;
             if(removeFromStart){

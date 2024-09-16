@@ -5,7 +5,7 @@ import { BookStoreContext } from "../BookStoreContextProvider";
 import ThankyouModal from './ThankyouModal';
 
 const BooksPanel = ({children})=>{
-    const {isThankyouModal} = useContext(BookStoreContext);
+    const {isThankyouModal, setPagesCurrIndex} = useContext(BookStoreContext);
     const numBooks = children.length;
     const [numColumns, setNumColumns] = useState(1);
     const [startIndex, setStartIndex] = useState(0);
@@ -35,6 +35,7 @@ const BooksPanel = ({children})=>{
      
     useEffect(()=>{
         setStartIndex(0);
+        setPagesCurrIndex(1);
     },[searchTerm, numColumns]);
 
     useEffect(()=>{

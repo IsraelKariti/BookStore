@@ -6,8 +6,7 @@ import BookCard from '../BookCard/BookCard';
 const HomeBooksPanel = ()=>{
     const {pagesState} = useContext(BookStoreContext);
     if(pagesState.length > 0){
-        const midPageIndex = Math.floor(pagesState.length/2);
-        const midPage = pagesState[midPageIndex];
+        const midPage = pagesState[0];
         const pageBooks = midPage.map((book)=><BookCard key={book._id} book={book}/>);
         return <BooksPanel>
                     {

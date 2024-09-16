@@ -5,8 +5,8 @@ import { BookStoreContext } from "../BookStoreContextProvider";
 const Pagination = ({numBooks, numColumns, changePage})=>{
     const [activePage, setActivePage] = useState(1);
     //const numBooksInPage = 12;// numColumns*2;
-    const numButtons = 3;//Math.ceil(numBooks/numBooksInPage)
-    const {searchTerm} = useContext(BookStoreContext);
+    const numButtons = 5;//Math.ceil(numBooks/numBooksInPage)
+    const {searchTerm, pagesCurrIndex} = useContext(BookStoreContext);
 
     const onButtonClicked = (i)=>{
         setActivePage(i);
@@ -18,7 +18,10 @@ const Pagination = ({numBooks, numColumns, changePage})=>{
     })
 
     useEffect(()=>{
-        setActivePage(1);
+        //setActivePage(1);
+        // 1. calculate how many possible pages there are
+        // 1. check if there is a SHORTAGE before or after the current page
+        // 2. try to 
     },[searchTerm, numColumns]);
 
     return <div className="pagination">
