@@ -4,10 +4,10 @@ import LockIcon from '@mui/icons-material/Lock';
 import { signin } from '../auth/auth';
 import { useNavigate } from 'react-router-dom';
 import { BookStoreContext } from '../BookStoreContextProvider';
-import { getAccount } from '../db/db';
+import { getAccount, getDiscountFromDB } from '../db/db.js';
 
 export default function SignIn() {
-    const {setLoggedInEmail} = useContext(BookStoreContext);
+    const {setLoggedInEmail, setDiscount, setPagesStartIndex} = useContext(BookStoreContext);
 
     const [email, setEmail] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
@@ -61,6 +61,10 @@ export default function SignIn() {
             const data = response.data;
             const token = data.token;
             localStorage.setItem('token', token);
+            setLoggedInEmail(email);
+            const discount = await getDiscountFromDB();
+            setDiscount(discount);
+            // setPagesStartIndex(1);
             navigate('/home');
         }
         catch(e){

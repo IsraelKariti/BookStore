@@ -4,6 +4,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { signin } from '../../auth/auth';
 import { useNavigate } from 'react-router-dom';
 import { BookStoreContext } from '../../BookStoreContextProvider';
+import { jwtDecode } from 'jwt-decode';
 
 export default function AdminSignIn() {
     const {setAdminLoggedIn} = useContext(BookStoreContext);
@@ -58,9 +59,15 @@ export default function AdminSignIn() {
             const response = await signin(email, password);
             const data = response.data;
             const token = data.token;
-            localStorage.setItem('token', token);
-            setAdminLoggedIn(true);
-            navigate('/admin');
+            const decoded = jwtDecode(token);
+            const isAdmin = decoded.isAdmin;
+            if(isAdmin){
+                localStorage.setItem('token', token);
+                setAdminLoggedIn(true);
+                navigate('/admin');
+            }
+            else
+                throw new Error('invalid admin credentials');
         }
         catch(e){
             setShowError(true);

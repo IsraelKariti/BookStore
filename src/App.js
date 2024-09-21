@@ -10,6 +10,7 @@ import SignUp from './components/SignUp';
 import AccountRouteWraper from './components/Account/AccountRouteWrapper';
 import CartPage from './components/Cart/CartPage';
 import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
+import AdminSignIn from './components/Admin/AdminSignIn';
 
 function App() {
   // signup('admin@bookstore.com', '123456');
@@ -47,6 +48,7 @@ function App() {
             <Route path="/account" element={<AccountRouteWraper/>}/>
             <Route path="/cart" element={<CartPage/>}/>
             <Route path="/admin" element={<AdminPrivateRoute/>}/>
+            <Route path="/adminLogin" element={<AdminSignIn/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
         </BrowserRouter>

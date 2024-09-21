@@ -1,4 +1,5 @@
 import React,{useEffect, useState, useCallback} from 'react';
+import Axios from 'axios';
 import '../../styles/cart-page.scss';
 import CartItem from './CartItem';
 import { Link } from 'react-router-dom';
@@ -17,16 +18,34 @@ const CartPage = ()=>{
             setCartItems(cartItemsList);
         }
     }
+    const loadCartItemsFromDB = async ()=>{
+        const token = localStorage.getItem("token");
+        const url = process.env.REACT_APP_BACKEND_SERVER + '/verify/user';
+        const response = await Axios.get(url, {headers: {
+            auth: `Bearer ${token}`
+        }});
+        if(response.status === 200){
+            const url = process.env.REACT_APP_BACKEND_SERVER + '/users';
+            const headers = {
+                auth: `Bearer ${token}`
+            }
+            const response = await Axios.get(url, {headers});
+            const cartItemsFromDB = response.data.cartItems;
+            setCartItems(cartItemsFromDB);
+        }
+    }
 
     useEffect(()=>{
-        loadItemsFromLocalStorage();
+        //loadItemsFromLocalStorage();
+        loadCartItemsFromDB();
     }, []);
 
     useEffect(()=>{
-        const total = cartItems.reduce((accu, curr)=>{
-            return accu += curr.amount * curr.book.printedPrice;
-        }, 0);
-        setTotalCost(total);
+        // const total = cartItems.reduce((accu, curr)=>{
+        //     return accu += curr.amount * curr.book.printedPrice;
+        // }, 0);
+        // setTotalCost(total);
+        setTotalCost(0);
     },[cartItems]);
     
     return cartItems == null || cartItems.length === 0 ? 
@@ -40,7 +59,7 @@ const CartPage = ()=>{
         <div className="cart-page__calculations">
             <div className="cart-page__items">
                 {
-                    cartItems.map((item)=><CartItem key={item.book.id} item={item} reload={loadItemsFromLocalStorage}/>)
+                    cartItems.map((item)=><CartItem key={item._id} item={item} reload={loadItemsFromLocalStorage}/>)
                 }
             </div>
             <div className="cart-page__summary">

@@ -5,7 +5,7 @@ import { signup } from '../auth/auth';
 import { useNavigate } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { BookStoreContext } from '../BookStoreContextProvider';
-import {addAccount} from '../db/db';
+import {addAccount, getDiscountFromDB} from '../db/db';
 import validator from 'validator';
 
 export default function SignUp() {
@@ -21,7 +21,7 @@ export default function SignUp() {
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
-    const {setLoggedInEmail} = useContext(BookStoreContext);
+    const {setLoggedInEmail, setDiscount, setPagesStartIndex} = useContext(BookStoreContext);
 
     const navigate = useNavigate();
 
@@ -94,7 +94,10 @@ export default function SignUp() {
             const token = res.data.token;
             localStorage.setItem('token', token);
             setLoggedInEmail(email);
+            const discount = await getDiscountFromDB();
+            setDiscount(discount);
             //storeUserDetailsInDB();
+            // setPagesStartIndex(1);
             navigate('/home');
         }
         catch(e){

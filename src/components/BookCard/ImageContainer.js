@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import {increaseBookAmountInActiveUserInDB} from '../../db/db';
-import {addBookToActiveUserInLocalStorage, increaseBookAmount} from '../../localStorage/localStorage';
+import {addBookToActiveUserInLocalStorage, increaseBookAmountInLocalStorage} from '../../localStorage/localStorage';
 import { useNavigate } from "react-router-dom";
 import {BookStoreContext} from '../../BookStoreContextProvider';
 
@@ -15,10 +15,10 @@ const ImageContainer = ({book})=>{
     }
     const onBuyBookClicked = (e)=>{
         e.stopPropagation();
-        const sessionEmail = localStorage.getItem('email');
+        const token = localStorage.getItem('token');
         // if no user is logged in
-        if(sessionEmail == null || sessionEmail === ''){
-            increaseBookAmount(book);
+        if(token == null){
+            increaseBookAmountInLocalStorage(book);
         }
         // if user is logged in
         else{

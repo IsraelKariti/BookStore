@@ -57,15 +57,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function HomeTopBar() {
-  const {setSearchTerm} = useContext(BookStoreContext);
+  const {setSearchTerm, setPagesCurrIndex, setPagesStartIndex} = useContext(BookStoreContext);
   const [activeUserEmail, setActiveUserEmail] = useState(null);
 
   const navigate = useNavigate();
 
   const onSearchChanges = (e)=>{
     setSearchTerm(e.target.value);
-    // 
+    setPagesCurrIndex(1);
+    setPagesStartIndex(1);//?????
   }
+
   const onSearchSubmitted = (e)=>{
     if(e.key === 'Enter'){
       navigate('/search');

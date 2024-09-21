@@ -20,6 +20,8 @@ export const pagesReducer = (state, action)=>{
                 const filteredPages = state.slice(0, -removeAmount);
                 return filteredPages;
             }
+        case "REMOVE_ALL":
+            return [];
         default:
             return state;
     }

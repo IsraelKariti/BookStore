@@ -1,7 +1,7 @@
 import React from "react";
 import Button from '@mui/material/Button';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { increaseBookAmount } from "../../localStorage/localStorage";
+import { increaseBookAmountInLocalStorage } from "../../localStorage/localStorage";
 import { increaseBookAmountInActiveUserInDB } from "../../db/db";
 
 const BuyTile = ({book, isPrintedBook})=>{
@@ -10,7 +10,7 @@ const BuyTile = ({book, isPrintedBook})=>{
         borderRadius: "20px",
     }
     const onBuyClicked = ()=>{
-        increaseBookAmount(book);
+        increaseBookAmountInLocalStorage(book);
         increaseBookAmountInActiveUserInDB(book);
     }
     return <div className="buy-tile">

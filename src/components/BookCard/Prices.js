@@ -1,22 +1,25 @@
 import React, {useContext} from "react";
 import {BookStoreContext} from "../../BookStoreContextProvider";
+import { Book } from "@mui/icons-material";
 
-const Prices = ({prices})=>{
-    let discount = localStorage.getItem('discount');
-    discount = discount != null ? discount: 0;
+const Prices = ({price})=>{
+    const {discount, loggedInEmail} = useContext(BookStoreContext);
     const discountFraction = (100-discount)/100;
-    const isSignedIn = localStorage.getItem('email') != null;
-
+    const digitalPrice = price/2;
     return <div className="prices">
         <div className="digital-pane">
             <div className="title">{"דיגיטלי"}</div>
-            <div className="prev-price">{prices.prevDigitalPrice}</div>
-            <div className="price">{prices.digitalPrice}</div>
+            {discount!==0 && <div className="prev-price">{digitalPrice.toFixed(2)}</div>}
+            {discount!==0 && <div className="price">{(digitalPrice*discountFraction).toFixed(2)}</div>}
+            
+            {discount===0 && <div className="price">{digitalPrice.toFixed(2)}</div>}
         </div>
         <div className="printed-pane">
             <div className="title">{"מודפס"}</div>
-            <div className="prev-price">{(prices.prevPrintedPrice*(isSignedIn?discountFraction:1)).toFixed(2)}</div>
-            <div className="price">{(prices.printedPrice*(isSignedIn?discountFraction:1)).toFixed(2)}</div>
+            {discount!==0 && <div className="prev-price">{price.toFixed(2)}</div>}
+            {discount!==0 && <div className="price">{(price*discountFraction).toFixed(2)}</div>}
+            
+            {discount===0 && <div className="price">{price.toFixed(2)}</div>}
         </div>
     </div>
 }

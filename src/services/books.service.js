@@ -1,7 +1,7 @@
 import Axios from "axios";
 
-export const getBookPagesByRange = async (start, end, size)=>{
-    const url = process.env.REACT_APP_BACKEND_SERVER + `/books/range?start=${start}&end=${end}&size=${size}`;
+export const getBookPagesByRange = async (start, end, size, searchTerm)=>{
+    const url = process.env.REACT_APP_BACKEND_SERVER + `/books/range?start=${start}&end=${end}&size=${size}&search=${searchTerm}`;
     try{
         const response = await Axios.get(url);
         if(response.status === 200){
@@ -9,17 +9,18 @@ export const getBookPagesByRange = async (start, end, size)=>{
             return pages;
         }
         else{
-            return null;
+            return [];
         }
     }
     catch(e){
         console.log(e);
-        return null;
+        return [];
     }
 }
 
-export const getBooksCount = async ()=>{
-    const url = process.env.REACT_APP_BACKEND_SERVER + `/books/count`;
+export const getBooksCount = async (searchTerm)=>{
+    
+    const url = process.env.REACT_APP_BACKEND_SERVER + `/books/count?search=${searchTerm}`;
 
     try{
         const response = await Axios.get(url);

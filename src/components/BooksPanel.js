@@ -35,7 +35,7 @@ const BooksPanel = ({children})=>{
      
     useEffect(()=>{
         setStartIndex(0);
-        setPagesCurrIndex(1);
+        //setPagesCurrIndex(1);
     },[searchTerm, numColumns]);
 
     useEffect(()=>{

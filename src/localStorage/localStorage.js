@@ -37,7 +37,7 @@ export const removeBookFromActiveUserInLocalStorage = (bookToRemove)=>{
     localStorage.setItem('cartItems', filteredCartItemsString);
 }
 
-export const increaseBookAmount = (bookToIncrease)=>{
+export const increaseBookAmountInLocalStorage = (bookToIncrease)=>{
     const cartItemsString = localStorage.getItem('cartItems');
     // if there are no books at all
     if(cartItemsString == null || cartItemsString === ''){
@@ -63,7 +63,7 @@ export const increaseBookAmount = (bookToIncrease)=>{
     localStorage.setItem('cartItems', CartItemsString);
 }
 
-export const decreaseBookAmount = (bookToIncrease)=>{
+export const decreaseBookAmountInLocalStorage = (bookToIncrease)=>{
     const cartItemsString = localStorage.getItem('cartItems');
     if(cartItemsString === '')
         return;

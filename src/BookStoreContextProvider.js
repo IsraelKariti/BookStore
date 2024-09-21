@@ -17,7 +17,7 @@ const BookStoreContextProvider = ({children})=>{
     const [searchTerm, setSearchTerm] = useState('');
     const [loggedInIdToken, setLoggedInIdToken] = useState(null);
     const [loggedInEmail, setLoggedInEmail] = useState(null);
-    const [discount, setDiscount] = useState(0);    
+    const [discount, setDiscount] = useState(0);
     const [isThankyouModal, setThankyouModal] = useState(false);
     const [isAdminLoggedIn, setAdminLoggedIn] = useState(false);
  
@@ -48,35 +48,21 @@ const BookStoreContextProvider = ({children})=>{
         setAdminLoggedIn
     }
 
+    
     useEffect(()=>{
+        //setPagesStartIndex(pagesCurrIndex);
+        //setPagesEndIndex(pagesCurrIndex);
         (async ()=>{
-            // load all books from database to the reducer
-            const count = await getBooksCount();
+            const count = await getBooksCount(searchTerm);
             setNumberOfPagesInDB(count);
             const {indexOfStartPage: newStartPageIndex, indexOfEndPage: newEndPageIndex} = calculateAdjacentPages(count, pagesCurrIndex);
-             setPagesStartIndex(newStartPageIndex);
+            setPagesStartIndex(newStartPageIndex);
             setPagesEndIndex(newEndPageIndex);
-            // clear redundant pages
-            if(pagesStartIndex > 0 && pagesStartIndex < newStartPageIndex)
-            {
-                const amountOfPagesToRemove = newStartPageIndex - pagesStartIndex;
-                pagesDispatch({type: 'REMOVE_PAGES', numberOfPagesToRemove: amountOfPagesToRemove, removeFromStart: true });
-            }
-            if(pagesEndIndex > newEndPageIndex){
-                const amountOfPagesToRemove = pagesEndIndex - newEndPageIndex;
-                pagesDispatch({type: 'REMOVE_PAGES', numberOfPagesToRemove: amountOfPagesToRemove, removeFromStart: false });
-            }
-            // calculate the range of pages needed
-            if(newStartPageIndex < pagesStartIndex){
-                const pages = await getBookPagesByRange(newStartPageIndex, pagesStartIndex-1, numberOfBooksInPage);
-                pagesDispatch({type: 'ADD_PAGES', position: 'FIRST', pages: pages});
-            }
-            if(newEndPageIndex > pagesEndIndex){
-                const pages = await getBookPagesByRange(pagesEndIndex+1, newEndPageIndex, numberOfBooksInPage);
-                pagesDispatch({type: 'ADD_PAGES', position: 'LAST', pages: pages});
-            }
+            pagesDispatch({type: 'REMOVE_ALL'});
+            const pages = await getBookPagesByRange(newStartPageIndex, newEndPageIndex, numberOfBooksInPage, searchTerm);
+            pagesDispatch({type: 'ADD_PAGES', position: 'FIRST', pages: pages});
         })();
-    },[pagesCurrIndex, pagesStartIndex, pagesEndIndex]);
+    },[pagesCurrIndex, setPagesStartIndex, setPagesEndIndex, searchTerm]);
 
     return <BookStoreContext.Provider value={values}>
         {children}

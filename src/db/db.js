@@ -28,39 +28,57 @@ export const editAccount = async (account)=>{
 }
 
 export const increaseBookAmountInActiveUserInDB = async (book)=>{
-    const email = localStorage.getItem('email');
-    if(email == null || email === '')
+    const token = localStorage.getItem('token');
+    if(token == null)
         return;
-    const response = await Axios.get(process.env.REACT_APP_DB+'accounts.json/');
-    const elements = Object.values(response.data);
-    for(let i = 0; i < elements.length; i++){
-        const account = Object.values(elements[i])[0];
-        // if found account of active user
-        if(account.email === email){
-            const cartItems = account.cartItems;
-            // if there are no books at all
-            if(cartItems == null){
-                account.cartItems = [{book,amount:1}];
-            }
-            // if there are some books than find this book
-            else {
-                let foundBook = false;
-                for(let i = 0; i < cartItems.length; i++){
-                    if(cartItems[i].book.id === book.id){
-                        cartItems[i].amount++;
-                        foundBook = true;
-                        break;
-                    }
-                }
-                // if book is new
-                if(foundBook === false){
-                    account.cartItems = [...cartItems, {book,amount:1}];
-                }
-            }
-
-            editAccount(account);
+    // verify that the token is valid
+    const verifulUrl = process.env.REACT_APP_BACKEND_SERVER + '/verify/user';
+    const verifyResponse = await Axios.get(verifulUrl, {
+        headers: {
+            auth: `Bearer ${token}`
         }
+    });
+
+    if(verifyResponse.status !== 200){
+        return;
     }
+
+    const response = await Axios.put(
+        process.env.REACT_APP_BACKEND_SERVER+'/users/inc', 
+        {...book},
+        {headers:{
+            auth: `Bearer ${token}`
+        }}
+    );
+    // const elements = Object.values(response.data);
+    // for(let i = 0; i < elements.length; i++){
+    //     const account = Object.values(elements[i])[0];
+    //     // if found account of active user
+    //     if(account.email === email){
+    //         const cartItems = account.cartItems;
+    //         // if there are no books at all
+    //         if(cartItems == null){
+    //             account.cartItems = [{book,amount:1}];
+    //         }
+    //         // if there are some books than find this book
+    //         else {
+    //             let foundBook = false;
+    //             for(let i = 0; i < cartItems.length; i++){
+    //                 if(cartItems[i].book.id === book.id){
+    //                     cartItems[i].amount++;
+    //                     foundBook = true;
+    //                     break;
+    //                 }
+    //             }
+    //             // if book is new
+    //             if(foundBook === false){
+    //                 account.cartItems = [...cartItems, {book,amount:1}];
+    //             }
+    //         }
+
+    //         editAccount(account);
+    //     }
+    // }
 }
 
 export const decreaseBookAmountInActiveUserInDB = async (book)=>{

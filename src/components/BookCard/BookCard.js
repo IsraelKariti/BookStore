@@ -9,13 +9,6 @@ const BookCard = ({book})=>{
   const [isAdmin, setAdmin] = useState(false);
   const location = useLocation();
 
-  const prices = {
-    prevPrintedPrice: book.prevPrintedPrice,
-    printedPrice: book.printedPrice,
-    prevDigitalPrice:book.prevDigitalPrice,
-    digitalPrice:book.digitalPrice,
-  }
-
   useEffect(()=>{
     //const isAdminActive = localStorage.getItem('email') === 'admin@bookstore.com';
     // console.log(location.pathname);
@@ -27,7 +20,7 @@ const BookCard = ({book})=>{
     {isAdmin? <AdminImageContainer book={book}/> :<ImageContainer book={book}/>}
     <div className="book-name">{book.title}</div>
     <div className="book-author">{book.author}</div>
-    <Prices prices={prices}/>
+    <Prices price={book.price}/>
   </div>
 }
 
